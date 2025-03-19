@@ -1,6 +1,7 @@
 import requests
 import allure
 import urls
+from data import Data
 
 class TestLogin:
     @allure.title('Проверка авторизации - заполнены все обязательные поля')
@@ -13,16 +14,16 @@ class TestLogin:
     def test_login_wrong_password(self):
         payload = {"login": "Art88", "password": "555444"}
         response = requests.post(urls.BASE_URL + urls.LOGIN_ENDPOINT, json=payload)
-        assert response.status_code == 404 and response.json() == {"code": 404, "message": "Учетная запись не найдена"}
+        assert response.status_code == 404 and response.json() == {"code": 404, "message": Data.login_404_error}
 
     @allure.title('Проверка авторизации - не указан пароль')
     def test_login_no_password(self):
         payload = {"login": "Art88", "password": ""}
         response = requests.post(urls.BASE_URL + urls.LOGIN_ENDPOINT, json=payload)
-        assert response.status_code == 400 and response.json() == {"code": 400, "message": "Недостаточно данных для входа"}
+        assert response.status_code == 400 and response.json() == {"code": 400, "message": Data.login_400_error}
 
     @allure.title('Проверка авторизации - не указан логин')
     def test_login_no_login(self):
         payload = {"login": "", "password": "qwe123"}
         response = requests.post(urls.BASE_URL + urls.LOGIN_ENDPOINT, json=payload)
-        assert response.status_code == 400 and response.json() == {"code": 400, "message": "Недостаточно данных для входа"}
+        assert response.status_code == 400 and response.json() == {"code": 400, "message": Data.login_400_error}
