@@ -1,13 +1,10 @@
 from faker import Faker
 
 class Data:
-    fake = Faker()
-    login = fake.user_name()
-    password = fake.password()
-    firstName = fake.name()
-    login_exist = fake.user_name()
-    password_exist = fake.password()
-    firstName_exist = fake.name()
+    @staticmethod
+    def fake_data():
+        fake = Faker()
+        return fake.user_name(), fake.password(), fake.first_name()
 
     create_courier_400_error = "Недостаточно данных для создания учетной записи"
     create_courier_409_error = "Этот логин уже используется. Попробуйте другой."
