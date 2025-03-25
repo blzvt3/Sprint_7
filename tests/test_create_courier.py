@@ -2,6 +2,7 @@ import requests
 import allure
 import urls
 from data import Data
+from helper import Generator
 
 class TestCreateCourier:
     @allure.title('Проверка создания курьера - заполнены все обязательные поля')
@@ -13,15 +14,13 @@ class TestCreateCourier:
 
     @allure.title('Проверка создания курьера - не указан пароль')
     def test_create_courier_no_password(self):
-        login, password, first_name = Data.fake_data()
-        payload = {"login": login, "password": "", "firstName": first_name}
+        payload = {"login": Generator.fake_login(), "password": "", "firstName": Generator.fake_first_name()}
         response = requests.post(urls.BASE_URL + urls.REGISTRATION_ENDPOINT, json=payload)
         assert response.status_code == 400 and response.json() == {"code": 400, "message": Data.create_courier_400_error}
 
     @allure.title('Проверка создания курьера - не указан логин')
     def test_create_courier_no_login(self):
-        login, password, first_name = Data.fake_data()
-        payload = {"login": "", "password": password, "firstName": first_name}
+        payload = {"login": "", "password": Generator.fake_password(), "firstName": Generator.fake_first_name()}
         response = requests.post(urls.BASE_URL + urls.REGISTRATION_ENDPOINT, json=payload)
         assert response.status_code == 400 and response.json() == {"code": 400, "message": Data.create_courier_400_error}
 

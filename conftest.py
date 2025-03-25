@@ -1,12 +1,15 @@
 import requests
 import urls
 import pytest
-from data import Data
+from helper import Generator
 
 @pytest.fixture
 def create_and_delete_courier_login_exist():
-    login, password, first_name = Data.fake_data()
+    login = Generator.fake_login()
+    password = Generator.fake_password()
+    first_name = Generator.fake_first_name()
     payload = {"login": login, "password": password, "firstName": first_name}
+
     response_create = requests.post(urls.BASE_URL + urls.REGISTRATION_ENDPOINT, json=payload)
     if response_create.status_code != 201 or response_create.json() != {"ok": True}:
         pytest.fail(f"Ошибка при создании курьера: {response_create.status_code}, {response_create.text}")
@@ -25,7 +28,10 @@ def create_and_delete_courier_login_exist():
 
 @pytest.fixture
 def delete_courier():
-    login, password, first_name = Data.fake_data()
+    login = Generator.fake_login()
+    password = Generator.fake_password()
+    first_name = Generator.fake_first_name()
+
     yield login, password, first_name
 
     payload = {"login": login, "password": password}

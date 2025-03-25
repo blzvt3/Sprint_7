@@ -1,11 +1,4 @@
-from faker import Faker
-
 class Data:
-    @staticmethod
-    def fake_data():
-        fake = Faker()
-        return fake.user_name(), fake.password(), fake.first_name()
-
     create_courier_400_error = "Недостаточно данных для создания учетной записи"
     create_courier_409_error = "Этот логин уже используется. Попробуйте другой."
     login_404_error = "Учетная запись не найдена"
